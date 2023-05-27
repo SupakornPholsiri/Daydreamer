@@ -24,8 +24,32 @@ offset_right = 64.0
 offset_bottom = 64.0
 texture = SubResource("GradientTexture2D_vmsfi")
 
-[node name="Ammobox" type="Sprite2D" parent="."]
+[node name="Ammobox" type="Sprite2D" parent="." groups=["Ammobox"]]
 position = Vector2(360, 360)
+scale = Vector2(4, 4)
+texture = ExtResource("7_hh77b")
+hframes = 2
+
+[node name="Ammobox2" type="Sprite2D" parent="." groups=["Ammobox"]]
+position = Vector2(168, 168)
+scale = Vector2(4, 4)
+texture = ExtResource("7_hh77b")
+hframes = 2
+
+[node name="Ammobox3" type="Sprite2D" parent="." groups=["Ammobox"]]
+position = Vector2(552, 168)
+scale = Vector2(4, 4)
+texture = ExtResource("7_hh77b")
+hframes = 2
+
+[node name="Ammobox4" type="Sprite2D" parent="." groups=["Ammobox"]]
+position = Vector2(170, 552)
+scale = Vector2(4, 4)
+texture = ExtResource("7_hh77b")
+hframes = 2
+
+[node name="Ammobox5" type="Sprite2D" parent="." groups=["Ammobox"]]
+position = Vector2(554, 552)
 scale = Vector2(4, 4)
 texture = ExtResource("7_hh77b")
 hframes = 2
