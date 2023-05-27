@@ -1,22 +1,27 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhl1cvgutuoft"]
+[gd_scene load_steps=12 format=3 uid="uid://bhl1cvgutuoft"]
 
 [ext_resource type="Script" path="res://Enemies/runner_enemy.gd" id="1_6r7jq"]
-[ext_resource type="Texture2D" uid="uid://ddsdn8ui4l0l1" path="res://icon.svg" id="2_r6jx6"]
+[ext_resource type="Texture2D" uid="uid://cgpup2dw4ee5y" path="res://Assets/Ghost_thingy.png" id="2_vfpqc"]
 [ext_resource type="PackedScene" uid="uid://dtbnkj26iyutf" path="res://Overlap/hitbox.tscn" id="3_7yk82"]
 [ext_resource type="PackedScene" uid="uid://c70q6j4ibsrrb" path="res://Overlap/hurtbox.tscn" id="4_wmsnx"]
 [ext_resource type="PackedScene" uid="uid://b5elgajtvphjv" path="res://Overlap/soft_collision_area.tscn" id="5_hwu5b"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aypek"]
-radius = 16.0804
-height = 32.1608
+radius = 12.0
+height = 28.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ovecu"]
-radius = 16.0804
-height = 32.1608
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0by0b"]
+size = Vector2(8, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lwjl5"]
+size = Vector2(20, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s0tno"]
+size = Vector2(24, 12)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v8sjx"]
-radius = 16.0804
-height = 32.1608
+radius = 12.0
+height = 28.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aqdw5"]
 radius = 21.0
@@ -24,7 +29,6 @@ height = 42.0
 
 [node name="RunnerEnemy" type="CharacterBody2D" groups=["Enemies"]]
 z_index = 1
-scale = Vector2(0.995001, 1)
 collision_layer = 4
 collision_mask = 5
 motion_mode = 1
@@ -33,10 +37,9 @@ platform_floor_layers = 4294967040
 script = ExtResource("1_6r7jq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0, 0.827451, 0.827451, 1)
 position = Vector2(3.02814e-07, 0)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("2_r6jx6")
+scale = Vector2(2, 2)
+texture = ExtResource("2_vfpqc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_aypek")
@@ -45,7 +48,21 @@ shape = SubResource("CapsuleShape2D_aypek")
 collision_mask = 8
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
-shape = SubResource("CapsuleShape2D_ovecu")
+position = Vector2(-8.74228e-08, 10)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_0by0b")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_lwjl5")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_lwjl5")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_s0tno")
 
 [node name="Hurtbox" parent="." instance=ExtResource("4_wmsnx")]
 collision_layer = 4
