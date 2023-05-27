@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://n4mo674jqhen"]
+
+[ext_resource type="Script" path="res://Enemies/walker_enemy.gd" id="1_kngpd"]
+[ext_resource type="Texture2D" uid="uid://5jhqmef6ceyt" path="res://Assets/heart_thing_rayman_style.png" id="2_0e8vx"]
+[ext_resource type="PackedScene" uid="uid://dtbnkj26iyutf" path="res://Overlap/hitbox.tscn" id="3_vtyvl"]
+[ext_resource type="PackedScene" uid="uid://c70q6j4ibsrrb" path="res://Overlap/hurtbox.tscn" id="4_h0kuf"]
+[ext_resource type="PackedScene" uid="uid://b5elgajtvphjv" path="res://Overlap/soft_collision_area.tscn" id="5_14dym"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aypek"]
+radius = 16.0804
+height = 32.1608
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_85jjy"]
+size = Vector2(28.1407, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1yllv"]
+size = Vector2(32.1608, 6)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v8sjx"]
+radius = 16.0804
+height = 32.1608
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aqdw5"]
+radius = 21.0
+height = 42.0
+
+[node name="WalkerEnemy" type="CharacterBody2D" groups=["Enemies"]]
+z_index = 1
+scale = Vector2(0.995001, 1)
+collision_layer = 4
+collision_mask = 5
+motion_mode = 1
+platform_on_leave = 2
+platform_floor_layers = 4294967040
+script = ExtResource("1_kngpd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(3.02814e-07, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("2_0e8vx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CapsuleShape2D_aypek")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_vtyvl")]
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2(-2.39568e-09, 0)
+shape = SubResource("RectangleShape2D_85jjy")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(4.79233e-07, 3)
+shape = SubResource("RectangleShape2D_1yllv")
+
+[node name="Hurtbox" parent="." instance=ExtResource("4_h0kuf")]
+visible = false
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_v8sjx")
+
+[node name="SoftCollisionArea" parent="." instance=ExtResource("5_14dym")]
+visible = false
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="SoftCollisionArea" index="0"]
+shape = SubResource("CapsuleShape2D_aqdw5")
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+
+[editable path="Hitbox"]
+[editable path="Hurtbox"]
+[editable path="SoftCollisionArea"]

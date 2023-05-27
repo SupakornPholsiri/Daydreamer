@@ -1,0 +1,132 @@
+[gd_scene load_steps=16 format=3 uid="uid://cidvclm4pucn1"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_uqltn"]
+[ext_resource type="Shader" path="res://white_flicker.gdshader" id="2_w0wdt"]
+[ext_resource type="Script" path="res://Gun.gd" id="3_sh0iu"]
+[ext_resource type="Texture2D" uid="uid://daj7ux1t2ghl1" path="res://Assets/Player.png" id="3_vn5qn"]
+[ext_resource type="Texture2D" uid="uid://cpm3gp875r7pt" path="res://Assets/handgun.png" id="4_i8i34"]
+[ext_resource type="PackedScene" uid="uid://dtbnkj26iyutf" path="res://Overlap/hitbox.tscn" id="4_jo85a"]
+[ext_resource type="Texture2D" uid="uid://5yunw1u45542" path="res://Assets/shotgun.png" id="6_rgdb6"]
+[ext_resource type="Texture2D" uid="uid://cftei4u68n04t" path="res://Assets/machinegun.png" id="7_tr061"]
+[ext_resource type="Texture2D" uid="uid://de5tnfdkjxvit" path="res://Assets/Invincible_powerup.png" id="8_cv4dd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tsbki"]
+shader = ExtResource("2_w0wdt")
+shader_parameter/active = false
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ev81j"]
+radius = 13.0
+height = 32.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qvnld"]
+radius = 13.0
+height = 31.519
+
+[sub_resource type="Animation" id="Animation_tpbr3"]
+resource_name = "flicker"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_h1106"]
+resource_name = "stop_invincibility"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mktpg"]
+_data = {
+"start_invincibility": SubResource("Animation_tpbr3"),
+"stop_invincibility": SubResource("Animation_h1106")
+}
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_uqltn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_tsbki")
+scale = Vector2(2, 2)
+texture = ExtResource("3_vn5qn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ev81j")
+
+[node name="Gun" type="Node2D" parent="."]
+script = ExtResource("3_sh0iu")
+
+[node name="Handgun" type="Sprite2D" parent="Gun"]
+visible = false
+texture_filter = 1
+position = Vector2(35, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("4_i8i34")
+offset = Vector2(-4, 2)
+
+[node name="Shotgun" type="Sprite2D" parent="Gun"]
+visible = false
+position = Vector2(46, 0)
+scale = Vector2(3, 3)
+texture = ExtResource("6_rgdb6")
+offset = Vector2(-8, 1)
+
+[node name="Machinegun" type="Sprite2D" parent="Gun"]
+position = Vector2(46, 0)
+scale = Vector2(3, 3)
+texture = ExtResource("7_tr061")
+offset = Vector2(-8, 0.5)
+
+[node name="Hitbox" parent="." instance=ExtResource("4_jo85a")]
+scale = Vector2(1, 1.01526)
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("CapsuleShape2D_qvnld")
+
+[node name="InvincibilityBubble" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.596078)
+scale = Vector2(3, 3)
+texture = ExtResource("8_cv4dd")
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="PowerupTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="WhiteFlickerAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mktpg")
+}
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]
+[connection signal="timeout" from="PowerupTimer" to="." method="_on_powerup_timer_timeout"]
+
+[editable path="Hitbox"]

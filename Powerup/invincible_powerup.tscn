@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://t3sl4lf1t4wn"]
+
+[ext_resource type="Script" path="res://Powerup/powerup.gd" id="1_uysnt"]
+[ext_resource type="Texture2D" uid="uid://de5tnfdkjxvit" path="res://Assets/Invincible_powerup.png" id="2_oijpo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gufxe"]
+size = Vector2(64, 64)
+
+[node name="InvinciblePowerup" type="Area2D" groups=["Powerup"]]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("1_uysnt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gufxe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = ExtResource("2_oijpo")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

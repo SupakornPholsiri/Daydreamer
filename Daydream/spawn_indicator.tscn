@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccuae1ey5n5vm"]
+
+[ext_resource type="Texture2D" uid="uid://c5khnqxcil8nu" path="res://Assets/warning_low_res.png" id="1_we2uk"]
+[ext_resource type="Script" path="res://Daydream/spawn_indicator.gd" id="2_ia2m3"]
+
+[node name="SpawnIndicator" type="Sprite2D"]
+z_index = 2
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("1_we2uk")
+script = ExtResource("2_ia2m3")

@@ -1,0 +1,49 @@
+[gd_scene load_steps=9 format=3 uid="uid://fxs4torjy7ha"]
+
+[ext_resource type="Script" path="res://Daydream/daydream.gd" id="1_pkn8d"]
+[ext_resource type="PackedScene" uid="uid://cidvclm4pucn1" path="res://player.tscn" id="2_8e7jf"]
+[ext_resource type="PackedScene" uid="uid://t3sl4lf1t4wn" path="res://Powerup/invincible_powerup.tscn" id="4_dyp0t"]
+[ext_resource type="PackedScene" uid="uid://xdbdj3kvv1ac" path="res://Powerup/shotgun_powerup.tscn" id="5_tyd28"]
+[ext_resource type="PackedScene" uid="uid://0qtn88jkyfqy" path="res://Powerup/machinegun_powerup.tscn" id="6_wfpdd"]
+[ext_resource type="Texture2D" uid="uid://bvs4lu82cohcl" path="res://Assets/Ammobox.png" id="7_hh77b"]
+
+[sub_resource type="Gradient" id="Gradient_q7rnq"]
+colors = PackedColorArray(0.514519, 0.645006, 0.342512, 1, 0.514519, 0.645006, 0.342512, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vmsfi"]
+gradient = SubResource("Gradient_q7rnq")
+width = 720
+height = 720
+
+[node name="Daydream" type="Node2D"]
+script = ExtResource("1_pkn8d")
+metadata/_edit_vertical_guides_ = [721.0]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 64.0
+offset_bottom = 64.0
+texture = SubResource("GradientTexture2D_vmsfi")
+
+[node name="Ammobox" type="Sprite2D" parent="."]
+position = Vector2(360, 360)
+scale = Vector2(4, 4)
+texture = ExtResource("7_hh77b")
+hframes = 2
+
+[node name="Player" parent="." instance=ExtResource("2_8e7jf")]
+position = Vector2(360, 440)
+
+[node name="InvinciblePowerup" parent="." instance=ExtResource("4_dyp0t")]
+
+[node name="ShotgunPowerup" parent="." instance=ExtResource("5_tyd28")]
+
+[node name="MachinegunPowerup" parent="." instance=ExtResource("6_wfpdd")]
+
+[node name="PowerupSpawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="powerup_timed_out" from="Player" to="." method="_on_player_powerup_timed_out"]
+[connection signal="powerup_picked_up" from="InvinciblePowerup" to="." method="handle_powerup_activation"]
+[connection signal="powerup_picked_up" from="ShotgunPowerup" to="." method="handle_powerup_activation"]
+[connection signal="powerup_picked_up" from="MachinegunPowerup" to="." method="handle_powerup_activation"]
+[connection signal="timeout" from="PowerupSpawnTimer" to="." method="_on_powerup_spawn_timer_timeout"]

@@ -1,0 +1,148 @@
+[gd_scene load_steps=11 format=3 uid="uid://cde83ff5u45ri"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_3fyj3"]
+[ext_resource type="PackedScene" uid="uid://fxs4torjy7ha" path="res://Daydream/daydream.tscn" id="2_gahtu"]
+[ext_resource type="PackedScene" uid="uid://cwccfh8qn777u" path="res://Classroom/classroom.tscn" id="3_lhpx7"]
+[ext_resource type="PackedScene" uid="uid://diq0fh66l2f5d" path="res://UI/main_menu.tscn" id="4_a367m"]
+[ext_resource type="Script" path="res://UI/UI.gd" id="4_tgr6r"]
+[ext_resource type="Texture2D" uid="uid://c7tataymka61n" path="res://Assets/Heart.png" id="5_bjjxq"]
+[ext_resource type="PackedScene" uid="uid://bwip8xrs6ahxq" path="res://UI/setting.tscn" id="6_yt8uy"]
+[ext_resource type="PackedScene" uid="uid://r0e2gd7k0huk" path="res://UI/game_over.tscn" id="7_r22km"]
+
+[sub_resource type="Gradient" id="Gradient_2b3gy"]
+colors = PackedColorArray(0, 0, 0, 0.745098, 0, 0, 0, 0.745098)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_d7oi3"]
+gradient = SubResource("Gradient_2b3gy")
+width = 720
+height = 720
+
+[node name="Main" type="Node"]
+script = ExtResource("1_3fyj3")
+metadata/_edit_vertical_guides_ = [720.0]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 80.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.29
+
+[node name="DaydreamViewport" type="SubViewport" parent="Control/SubViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+size = Vector2i(720, 720)
+render_target_update_mode = 4
+
+[node name="Daydream" parent="Control/SubViewportContainer/DaydreamViewport" instance=ExtResource("2_gahtu")]
+process_mode = 4
+
+[node name="Blackveil" type="TextureRect" parent="Control/SubViewportContainer/DaydreamViewport"]
+z_index = 2
+offset_right = 720.0
+offset_bottom = 720.0
+texture = SubResource("GradientTexture2D_d7oi3")
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 80.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="ClassroomViewport" type="SubViewport" parent="Control/SubViewportContainer2"]
+disable_3d = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+size = Vector2i(560, 720)
+render_target_update_mode = 4
+
+[node name="Classroom" parent="Control/SubViewportContainer2/ClassroomViewport" instance=ExtResource("3_lhpx7")]
+metadata/_edit_vertical_guides_ = [560.0]
+
+[node name="Blackveil2" type="TextureRect" parent="Control/SubViewportContainer2/ClassroomViewport"]
+visible = false
+offset_right = 721.0
+offset_bottom = 720.0
+texture = SubResource("GradientTexture2D_d7oi3")
+
+[node name="UI" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("4_tgr6r")
+
+[node name="Score" type="Label" parent="UI"]
+offset_left = 14.0
+offset_top = 47.0
+offset_right = 79.0
+offset_bottom = 73.0
+text = "Score : 0"
+
+[node name="ScoreMultiplier" type="Label" parent="UI"]
+offset_left = 14.0
+offset_top = 69.0
+offset_right = 79.0
+offset_bottom = 95.0
+text = "X1"
+
+[node name="HealthUI" type="TextureRect" parent="UI"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 56.0
+offset_bottom = 24.0
+scale = Vector2(2, 2)
+texture = ExtResource("5_bjjxq")
+stretch_mode = 1
+
+[node name="Setting" parent="UI" instance=ExtResource("6_yt8uy")]
+visible = false
+
+[node name="GameOver" parent="UI" instance=ExtResource("7_r22km")]
+visible = false
+
+[node name="MainMenu" parent="UI" instance=ExtResource("4_a367m")]
+
+[connection signal="child_entered_tree" from="Control/SubViewportContainer/DaydreamViewport/Daydream" to="." method="_on_daydream_child_entered_tree"]
+[connection signal="pressed" from="UI/Setting/Back" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="UI/GameOver/PlayAgain" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="UI/GameOver/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="UI/MainMenu/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="UI/MainMenu/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="UI/MainMenu/Quit" to="." method="_on_quit_pressed"]
+
+[editable path="UI/Setting"]
+[editable path="UI/GameOver"]
+[editable path="UI/MainMenu"]

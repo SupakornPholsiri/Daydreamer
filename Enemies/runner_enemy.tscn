@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhl1cvgutuoft"]
+
+[ext_resource type="Script" path="res://Enemies/runner_enemy.gd" id="1_6r7jq"]
+[ext_resource type="Texture2D" uid="uid://ddsdn8ui4l0l1" path="res://icon.svg" id="2_r6jx6"]
+[ext_resource type="PackedScene" uid="uid://dtbnkj26iyutf" path="res://Overlap/hitbox.tscn" id="3_7yk82"]
+[ext_resource type="PackedScene" uid="uid://c70q6j4ibsrrb" path="res://Overlap/hurtbox.tscn" id="4_wmsnx"]
+[ext_resource type="PackedScene" uid="uid://b5elgajtvphjv" path="res://Overlap/soft_collision_area.tscn" id="5_hwu5b"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aypek"]
+radius = 16.0804
+height = 32.1608
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ovecu"]
+radius = 16.0804
+height = 32.1608
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v8sjx"]
+radius = 16.0804
+height = 32.1608
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_aqdw5"]
+radius = 21.0
+height = 42.0
+
+[node name="RunnerEnemy" type="CharacterBody2D" groups=["Enemies"]]
+z_index = 1
+scale = Vector2(0.995001, 1)
+collision_layer = 4
+collision_mask = 5
+motion_mode = 1
+platform_on_leave = 2
+platform_floor_layers = 4294967040
+script = ExtResource("1_6r7jq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0.827451, 0.827451, 1)
+position = Vector2(3.02814e-07, 0)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_r6jx6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_aypek")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_7yk82")]
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("CapsuleShape2D_ovecu")
+
+[node name="Hurtbox" parent="." instance=ExtResource("4_wmsnx")]
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_v8sjx")
+
+[node name="SoftCollisionArea" parent="." instance=ExtResource("5_hwu5b")]
+collision_layer = 16
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="SoftCollisionArea" index="0"]
+shape = SubResource("CapsuleShape2D_aqdw5")
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+
+[editable path="Hitbox"]
+[editable path="Hurtbox"]
+[editable path="SoftCollisionArea"]

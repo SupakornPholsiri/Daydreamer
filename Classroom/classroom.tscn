@@ -1,0 +1,152 @@
+[gd_scene load_steps=13 format=3 uid="uid://cwccfh8qn777u"]
+
+[ext_resource type="Texture2D" uid="uid://comdxrhr5j787" path="res://Assets/Blackboard.png" id="1_8x37a"]
+[ext_resource type="Script" path="res://Classroom/classroom.gd" id="1_u5fkb"]
+[ext_resource type="Texture2D" uid="uid://f0mif2uyik18" path="res://Assets/Plank_texture.png" id="1_vltl5"]
+[ext_resource type="Texture2D" uid="uid://7rusvwuaxa5t" path="res://Assets/Boy.png" id="2_bp3a8"]
+[ext_resource type="Texture2D" uid="uid://gsijspx5ljyh" path="res://Assets/Teacher.png" id="4_6negu"]
+[ext_resource type="Texture2D" uid="uid://pjvpxp3ly2ko" path="res://Assets/Table_alt_dark.png" id="4_kpary"]
+[ext_resource type="Texture2D" uid="uid://hpghuvcp3k4a" path="res://Assets/triple_dot_bubble.png" id="7_y82v0"]
+
+[sub_resource type="Gradient" id="Gradient_enmbd"]
+colors = PackedColorArray(0.281187, 0.281187, 0.281187, 1, 0.281187, 0.281187, 0.281187, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rx1ty"]
+gradient = SubResource("Gradient_enmbd")
+
+[sub_resource type="Animation" id="Animation_3w0hm"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_jeya8"]
+resource_name = "triple_dot"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TripleDotBubble:frame")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"begin_talking"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TripleDotBubble:visible")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1stuh"]
+_data = {
+"RESET": SubResource("Animation_3w0hm"),
+"triple_dot": SubResource("Animation_jeya8")
+}
+
+[node name="Classroom" type="Node2D"]
+script = ExtResource("1_u5fkb")
+metadata/_edit_vertical_guides_ = [560.0, 280.0]
+
+[node name="Wall" type="Sprite2D" parent="."]
+position = Vector2(280, 150)
+scale = Vector2(8.75, 4.6875)
+texture = SubResource("GradientTexture2D_rx1ty")
+
+[node name="Floor" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(288, 524)
+scale = Vector2(4, 4)
+texture = ExtResource("1_vltl5")
+region_enabled = true
+region_rect = Rect2(0, 0, 144, 112)
+
+[node name="Blackboard" type="Sprite2D" parent="."]
+position = Vector2(280, 160)
+scale = Vector2(4, 4)
+texture = ExtResource("1_8x37a")
+
+[node name="Table" type="Sprite2D" parent="."]
+position = Vector2(160, 432)
+scale = Vector2(8, 8)
+texture = ExtResource("4_kpary")
+
+[node name="Table2" type="Sprite2D" parent="."]
+position = Vector2(400, 432)
+scale = Vector2(8, 8)
+texture = ExtResource("4_kpary")
+
+[node name="Table3" type="Sprite2D" parent="."]
+position = Vector2(160, 608)
+scale = Vector2(8, 8)
+texture = ExtResource("4_kpary")
+
+[node name="Table4" type="Sprite2D" parent="."]
+position = Vector2(400, 608)
+scale = Vector2(8, 8)
+texture = ExtResource("4_kpary")
+
+[node name="Boy" type="Sprite2D" parent="."]
+position = Vector2(160, 432)
+scale = Vector2(8, 8)
+texture = ExtResource("2_bp3a8")
+
+[node name="Boy2" type="Sprite2D" parent="."]
+position = Vector2(400, 432)
+scale = Vector2(8, 8)
+texture = ExtResource("2_bp3a8")
+
+[node name="Boy3" type="Sprite2D" parent="."]
+position = Vector2(160, 608)
+scale = Vector2(8, 8)
+texture = ExtResource("2_bp3a8")
+
+[node name="Boy4" type="Sprite2D" parent="."]
+position = Vector2(400, 608)
+scale = Vector2(8, 8)
+texture = ExtResource("2_bp3a8")
+
+[node name="Teacher" type="Sprite2D" parent="."]
+position = Vector2(281, 235)
+scale = Vector2(8, 8)
+texture = ExtResource("4_6negu")
+hframes = 2
+frame = 1
+
+[node name="TripleDotBubble" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(311, 123)
+scale = Vector2(4, 4)
+texture = ExtResource("7_y82v0")
+hframes = 3
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1stuh")
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
