@@ -1,5 +1,8 @@
 extends Node2D
 
+signal powerup_activated(powerup_texture, time)
+signal powerup_deactivated
+
 const walker_enemy = preload("res://Enemies/walker_enemy.tscn")
 const runner_enemy = preload("res://Enemies/runner_enemy.tscn")
 const spawn_indicator = preload("res://Daydream/spawn_indicator.tscn")
@@ -20,6 +23,7 @@ var current_active_ammobox
 
 var enemy_spawn_timer : float = 0
 var current_powerup
+var current_powerup_texture
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -76,6 +80,7 @@ func _on_spawn_indicator_timer_ended(position : Vector2):
 	add_child(new_enemy)
 
 func _on_player_powerup_timed_out():
+	emit_signal("powerup_deactivated")
 	powerup_spawn_timer.start(2)
 
 func _on_powerup_spawn_timer_timeout():
@@ -94,9 +99,11 @@ func _on_powerup_spawn_timer_timeout():
 		3 : current_powerup = machinegun_powerup
 	current_powerup.position = current_active_ammobox.position
 	add_child(current_powerup)
+	current_powerup_texture = current_powerup.get_node("Sprite2D").texture
 	
 func handle_powerup_activation(powerup_id : int):
 	current_active_ammobox.frame = 0
 	current_active_ammobox = null
 	call_deferred("remove_child", current_powerup)
-	player.activate_powerup(powerup_id)
+	player.activate_powerup(powerup_id, current_powerup.time)
+	emit_signal("powerup_activated", current_powerup_texture, current_powerup.time)

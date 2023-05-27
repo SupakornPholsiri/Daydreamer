@@ -1,18 +1,55 @@
-[gd_scene format=3 uid="uid://d2v2mx8xtqjdj"]
+[gd_scene load_steps=5 format=3 uid="uid://d2v2mx8xtqjdj"]
+
+[ext_resource type="Script" path="res://UI/powerup_ui.gd" id="1_4mwg2"]
+[ext_resource type="Texture2D" uid="uid://btwxrmdkin3li" path="res://Assets/PowerupUI_BG.png" id="1_ofi8t"]
+
+[sub_resource type="Gradient" id="Gradient_1p84q"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1rwmi"]
+gradient = SubResource("Gradient_1p84q")
+height = 16
 
 [node name="PowerupUI" type="TextureRect"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_right = 0.062
+anchor_bottom = 0.111
+offset_right = 0.639999
+offset_bottom = 0.0799942
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("1_ofi8t")
+script = ExtResource("1_4mwg2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -32.0
+offset_right = 36.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 4
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = 16.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_under = SubResource("GradientTexture2D_1rwmi")
+texture_progress = SubResource("GradientTexture2D_1rwmi")
+tint_under = Color(0, 0, 0, 1)
+tint_progress = Color(1, 0.752941, 0.101961, 1)
