@@ -43,13 +43,13 @@ texture = ExtResource("7_hh77b")
 hframes = 2
 
 [node name="Ammobox4" type="Sprite2D" parent="." groups=["Ammobox"]]
-position = Vector2(168, 552)
+position = Vector2(170, 552)
 scale = Vector2(4, 4)
 texture = ExtResource("7_hh77b")
 hframes = 2
 
 [node name="Ammobox5" type="Sprite2D" parent="." groups=["Ammobox"]]
-position = Vector2(552, 552)
+position = Vector2(554, 552)
 scale = Vector2(4, 4)
 texture = ExtResource("7_hh77b")
 hframes = 2

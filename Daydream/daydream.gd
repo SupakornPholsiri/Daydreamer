@@ -13,7 +13,10 @@ const player_scene = preload("res://player.tscn")
 @onready var invincible_powerup = $InvinciblePowerup
 @onready var shotgun_powerup = $ShotgunPowerup
 @onready var machinegun_powerup = $MachinegunPowerup
-@onready var ammobox = $Ammobox
+
+var ammoboxes_positions : Array
+var ammoboxes_amount : int = 0
+var current_active_ammobox
 
 var enemy_spawn_timer : float = 0
 var current_powerup
@@ -23,6 +26,9 @@ func _ready():
 	remove_child(invincible_powerup)
 	remove_child(shotgun_powerup)
 	remove_child(machinegun_powerup)
+	for ammobox in get_tree().get_nodes_in_group("Ammobox"):
+		ammoboxes_positions.append(ammobox.position)
+		ammoboxes_amount += 1
 	
 func start():
 	player.start()
@@ -30,7 +36,8 @@ func start():
 	powerup_spawn_timer.start(2)
 	
 func reset():
-	ammobox.frame = 0
+	for ammobox in get_tree().get_nodes_in_group("Ammobox"):
+		ammobox.frame = 0
 	powerup_spawn_timer.stop()
 	for enemy in get_tree().get_nodes_in_group("Enemies"):
 		enemy.queue_free()
@@ -72,16 +79,24 @@ func _on_player_powerup_timed_out():
 	powerup_spawn_timer.start(2)
 
 func _on_powerup_spawn_timer_timeout():
-	ammobox.frame = 1
+	var random_number = randi_range(1, ammoboxes_amount)
+	var count = 0
+	for ammobox in get_tree().get_nodes_in_group("Ammobox"):
+		count += 1
+		if count == random_number:
+			current_active_ammobox = ammobox
+			current_active_ammobox.frame = 1
+			break
 	var powerup_id = randi_range(1, 3)
 	match powerup_id:
 		1 : current_powerup = machinegun_powerup
 		2 : current_powerup = shotgun_powerup
 		3 : current_powerup = machinegun_powerup
-	current_powerup.position = Vector2(360, 360)
+	current_powerup.position = current_active_ammobox.position
 	add_child(current_powerup)
 	
 func handle_powerup_activation(powerup_id : int):
-	ammobox.frame = 0
+	current_active_ammobox.frame = 0
+	current_active_ammobox = null
 	call_deferred("remove_child", current_powerup)
 	player.activate_powerup(powerup_id)
