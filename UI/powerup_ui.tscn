@@ -22,6 +22,7 @@ texture = ExtResource("1_ofi8t")
 script = ExtResource("1_4mwg2")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.694118)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
