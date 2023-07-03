@@ -40,7 +40,7 @@ func begin_writing():
 	SoundPlayer.stop_teacher_talking_sound()
 	current_teacher_state = TEACHER_STATE.WRITING
 	teacher.frame = 0
-	timer.start(randi_range(1, 10))
+	timer.start(randi_range(3, 10))
 	SoundPlayer.play_chalk_sound()
 	
 func begin_looking():
