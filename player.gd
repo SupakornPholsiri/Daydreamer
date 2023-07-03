@@ -93,33 +93,33 @@ func set_health(value : int):
 func set_max_health(value : int):
 	MAX_HEALTH = max(1, value)
 	
-func activate_powerup(powerup_id : int):
+func activate_powerup(powerup_id : int, time : float):
 	active_powerup = powerup_id
 	match powerup_id:
-		POWERUP.INVINCIBILITY : activate_invincibility()
-		POWERUP.SHOTGUN : activate_shotgun()
-		POWERUP.SUBMACHINEGUN : activate_submachinegun()
-		POWERUP.RPG : activate_rpg()
+		POWERUP.INVINCIBILITY : activate_invincibility(time)
+		POWERUP.SHOTGUN : activate_shotgun(time)
+		POWERUP.SUBMACHINEGUN : activate_submachinegun(time)
+		POWERUP.RPG : activate_rpg(time)
 		
-func activate_invincibility():
+func activate_invincibility(time : float):
 	invincibility_timer.stop()
 	white_flicker_animation_player.play("stop_invincibility")
 	invincible = true
 	hitbox.get_node("CollisionShape2D").set_deferred("disabled", true)
 	invincibility_bubble.visible = true
-	powerup_timer.start(5)
+	powerup_timer.start(time)
 	
-func activate_shotgun():
+func activate_shotgun(time : float):
 	_on_changed_weapon(2)
-	powerup_timer.start(5)
+	powerup_timer.start(time)
 	
-func activate_submachinegun():
+func activate_submachinegun(time : float):
 	_on_changed_weapon(1)
-	powerup_timer.start(5)
+	powerup_timer.start(time)
 	
-func activate_rpg():
+func activate_rpg(time : float):
 	_on_changed_weapon(3)
-	powerup_timer.start(5)
+	powerup_timer.start(time)
 	
 func die():
 	invincible = true
