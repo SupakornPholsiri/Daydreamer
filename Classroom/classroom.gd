@@ -41,8 +41,10 @@ func begin_writing():
 	current_teacher_state = TEACHER_STATE.WRITING
 	teacher.frame = 0
 	timer.start(randi_range(1, 10))
+	SoundPlayer.play_chalk_sound()
 	
 func begin_looking():
+	SoundPlayer.stop_chalk_sound()
 	current_teacher_state = TEACHER_STATE.LOOKING
 	teacher.frame = 1
 	animation_player.play("triple_dot")

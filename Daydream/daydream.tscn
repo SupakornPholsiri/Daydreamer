@@ -1,28 +1,21 @@
-[gd_scene load_steps=9 format=3 uid="uid://fxs4torjy7ha"]
+[gd_scene load_steps=8 format=3 uid="uid://fxs4torjy7ha"]
 
 [ext_resource type="Script" path="res://Daydream/daydream.gd" id="1_pkn8d"]
 [ext_resource type="PackedScene" uid="uid://cidvclm4pucn1" path="res://player.tscn" id="2_8e7jf"]
+[ext_resource type="Texture2D" uid="uid://ch8bnbomv5ae1" path="res://Assets/DaydreamBG7.png" id="2_r5ksc"]
 [ext_resource type="PackedScene" uid="uid://t3sl4lf1t4wn" path="res://Powerup/invincible_powerup.tscn" id="4_dyp0t"]
 [ext_resource type="PackedScene" uid="uid://xdbdj3kvv1ac" path="res://Powerup/shotgun_powerup.tscn" id="5_tyd28"]
 [ext_resource type="PackedScene" uid="uid://0qtn88jkyfqy" path="res://Powerup/machinegun_powerup.tscn" id="6_wfpdd"]
 [ext_resource type="Texture2D" uid="uid://bvs4lu82cohcl" path="res://Assets/Ammobox.png" id="7_hh77b"]
-
-[sub_resource type="Gradient" id="Gradient_q7rnq"]
-colors = PackedColorArray(0.514519, 0.645006, 0.342512, 1, 0.514519, 0.645006, 0.342512, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_vmsfi"]
-gradient = SubResource("Gradient_q7rnq")
-width = 720
-height = 720
 
 [node name="Daydream" type="Node2D"]
 script = ExtResource("1_pkn8d")
 metadata/_edit_vertical_guides_ = [721.0]
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 64.0
-offset_bottom = 64.0
-texture = SubResource("GradientTexture2D_vmsfi")
+offset_right = 720.0
+offset_bottom = 720.0
+texture = ExtResource("2_r5ksc")
 
 [node name="Ammobox" type="Sprite2D" parent="." groups=["Ammobox"]]
 position = Vector2(360, 360)

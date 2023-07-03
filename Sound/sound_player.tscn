@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://f3uveh0s2if7"]
+[gd_scene load_steps=7 format=3 uid="uid://f3uveh0s2if7"]
 
 [ext_resource type="Script" path="res://Sound/SoundPlayer.gd" id="1_tmeru"]
 [ext_resource type="AudioStream" uid="uid://dr1ryjdfs2ilr" path="res://Sound/GunShot.wav" id="2_lgeyu"]
 [ext_resource type="AudioStream" uid="uid://ppsigs0qmqlx" path="res://Sound/TeacherCough.wav" id="3_er3fa"]
 [ext_resource type="AudioStream" uid="uid://d2c5pcb5g63m1" path="res://Sound/TeacherTalking.wav" id="4_cltn6"]
+[ext_resource type="AudioStream" uid="uid://de00alh4twxo8" path="res://Sound/ChalkOnBoard.wav" id="5_2mpem"]
 [ext_resource type="AudioStream" uid="uid://c4dgi5xvp3vak" path="res://Sound/First_Aid_Arcade_Looped.wav" id="5_y3v17"]
 
 [node name="SoundPlayer" type="Node"]
@@ -22,6 +23,10 @@ bus = &"SoundEffects"
 
 [node name="TeacherTalking" type="AudioStreamPlayer" parent="SoundEffects"]
 stream = ExtResource("4_cltn6")
+bus = &"SoundEffects"
+
+[node name="ChalkSound" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("5_2mpem")
 bus = &"SoundEffects"
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]

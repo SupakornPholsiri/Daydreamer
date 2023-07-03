@@ -4,6 +4,7 @@ extends Node
 @onready var gun_sound = $SoundEffects/GunSound
 @onready var cough_sound = $SoundEffects/CoughSound
 @onready var teacher_talking = $SoundEffects/TeacherTalking
+@onready var chalk_sound = $SoundEffects/ChalkSound
 
 @onready var bgm = $BGM
 
@@ -21,6 +22,12 @@ func play_teacher_talking_sound():
 	
 func stop_teacher_talking_sound():
 	teacher_talking.stop()
+	
+func play_chalk_sound():
+	chalk_sound.play()
+	
+func stop_chalk_sound():
+	chalk_sound.stop()
 	
 func stop_all_sound_effects():
 	for audio_player in sound_effects.get_children():

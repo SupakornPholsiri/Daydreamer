@@ -1,10 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://r0e2gd7k0huk"]
+[gd_scene load_steps=7 format=3 uid="uid://r0e2gd7k0huk"]
 
 [ext_resource type="Texture2D" uid="uid://comdxrhr5j787" path="res://Assets/Blackboard.png" id="1_37xiy"]
 [ext_resource type="Texture2D" uid="uid://bb47yexjbg73k" path="res://Assets/Daydreamer_title.png" id="2_tdv3m"]
+[ext_resource type="Texture2D" uid="uid://df67qai56c5c8" path="res://Assets/player_chalk.png" id="3_hlme6"]
+[ext_resource type="Texture2D" uid="uid://hu843uwksy8v" path="res://Assets/handgun_chalk.png" id="4_ij0sq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8kdu8"]
 font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_1f06g"]
+font_size = 27
 
 [node name="GameOver" type="TextureRect"]
 anchors_preset = 8
@@ -62,10 +67,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = 94.0
-offset_right = 20.0
-offset_bottom = 134.0
+offset_left = -69.0
+offset_top = 80.0
+offset_right = 69.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
@@ -85,6 +90,7 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Play Again
 "
+label_settings = SubResource("LabelSettings_1f06g")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -95,10 +101,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = 145.0
-offset_right = 20.0
-offset_bottom = 185.0
+offset_left = -77.0
+offset_top = 153.0
+offset_right = 77.0
+offset_bottom = 193.0
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
@@ -118,5 +124,39 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Main Menu
 "
+label_settings = SubResource("LabelSettings_1f06g")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PlayerDrawing" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 360.0
+offset_top = -24.0
+offset_right = 400.0
+offset_bottom = 16.0
+rotation = 0.347301
+scale = Vector2(5, 5)
+texture = ExtResource("3_hlme6")
+
+[node name="HandgunDrawing" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 272.0
+offset_top = 24.0
+offset_right = 312.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.347301
+scale = Vector2(2, 2)
+texture = ExtResource("4_ij0sq")
+flip_h = true
