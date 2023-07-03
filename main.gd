@@ -10,8 +10,11 @@ extends Node
 
 var score_multi : int = 1 : set = set_score_multi
 var score : int = 0 : set = set_score
-
 var kill_streak : int = 0
+
+var powerup_time : float = 0
+var monitoring_powerup_countdown : bool = false
+
 var daydream_paused : bool = true
 
 var in_game_over : bool = false
@@ -22,6 +25,8 @@ func _ready():
 	daydream.get_node("Player").connect("player_health_changed", UI.change_health_ui)
 
 func _physics_process(delta):
+	if monitoring_powerup_countdown:
+		UI.update_powerup_time(daydream.get_node("Player/PowerupTimer").time_left, powerup_time)
 	if Input.is_action_just_pressed("toggle_daydream") and not in_game_over:
 		toggle_daydream()
 		
@@ -75,6 +80,8 @@ func game_over():
 	score = 0
 	
 func reset_game():
+	UI.update_powerup(null, 100)
+	monitoring_powerup_countdown = false
 	SoundPlayer.stop_bgm()
 	SoundPlayer.reset_bgm()
 	SoundPlayer.stop_all_sound_effects()
@@ -113,3 +120,14 @@ func _on_main_menu_pressed():
 func _on_settings_pressed():
 	UI.show_setting()
 	UI.hide_main_menu()
+
+func _on_daydream_powerup_activated(powerup_texture, time):
+	UI.update_powerup(powerup_texture, time)
+	powerup_time = time
+	monitoring_powerup_countdown = true
+
+func _on_daydream_powerup_deactivated():
+	UI.update_powerup(null, 100)
+	monitoring_powerup_countdown = false
+	powerup_time = 0
+	

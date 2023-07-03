@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cde83ff5u45ri"]
+[gd_scene load_steps=12 format=3 uid="uid://cde83ff5u45ri"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_3fyj3"]
 [ext_resource type="PackedScene" uid="uid://fxs4torjy7ha" path="res://Daydream/daydream.tscn" id="2_gahtu"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://diq0fh66l2f5d" path="res://UI/main_menu.tscn" id="4_a367m"]
 [ext_resource type="Script" path="res://UI/UI.gd" id="4_tgr6r"]
 [ext_resource type="Texture2D" uid="uid://c7tataymka61n" path="res://Assets/Heart.png" id="5_bjjxq"]
+[ext_resource type="PackedScene" uid="uid://d2v2mx8xtqjdj" path="res://UI/powerup_ui.tscn" id="6_2jjet"]
 [ext_resource type="PackedScene" uid="uid://bwip8xrs6ahxq" path="res://UI/setting.tscn" id="6_yt8uy"]
 [ext_resource type="PackedScene" uid="uid://r0e2gd7k0huk" path="res://UI/game_over.tscn" id="7_r22km"]
 
@@ -127,6 +128,16 @@ scale = Vector2(2, 2)
 texture = ExtResource("5_bjjxq")
 stretch_mode = 1
 
+[node name="PowerupUI" parent="UI" instance=ExtResource("6_2jjet")]
+anchor_left = 0.494
+anchor_top = 0.011
+anchor_right = 0.556
+anchor_bottom = 0.122
+offset_left = -0.320007
+offset_top = 0.0799994
+offset_right = 0.319946
+offset_bottom = 0.0
+
 [node name="Setting" parent="UI" instance=ExtResource("6_yt8uy")]
 visible = false
 
@@ -136,6 +147,8 @@ visible = false
 [node name="MainMenu" parent="UI" instance=ExtResource("4_a367m")]
 
 [connection signal="child_entered_tree" from="Control/SubViewportContainer/DaydreamViewport/Daydream" to="." method="_on_daydream_child_entered_tree"]
+[connection signal="powerup_activated" from="Control/SubViewportContainer/DaydreamViewport/Daydream" to="." method="_on_daydream_powerup_activated"]
+[connection signal="powerup_deactivated" from="Control/SubViewportContainer/DaydreamViewport/Daydream" to="." method="_on_daydream_powerup_deactivated"]
 [connection signal="pressed" from="UI/Setting/Back" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/PlayAgain" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="UI/GameOver/MainMenu" to="." method="_on_main_menu_pressed"]

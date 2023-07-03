@@ -6,6 +6,7 @@ extends CanvasLayer
 @onready var score_multiplier_label = $ScoreMultiplier
 @onready var game_over = $GameOver
 @onready var setting = $Setting
+@onready var powerup_ui = $PowerupUI
 
 func show_main_menu():
 	main_menu.show()
@@ -38,3 +39,13 @@ func update_score_ui(score : int):
 	
 func update_score_multiplier_ui(score_multi : int):
 	score_multiplier_label.text = "X" + str(score_multi)
+	
+func update_powerup(incoming_texture, time):
+	powerup_ui.change_texture(incoming_texture)
+	if incoming_texture == null :
+		powerup_ui.change_value(0, 100)
+	else :
+		powerup_ui.change_value(time, time)
+	
+func update_powerup_time(remaining_time, max_time):
+	powerup_ui.change_value(remaining_time, max_time)
