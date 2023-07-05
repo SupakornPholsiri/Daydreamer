@@ -79,20 +79,27 @@ func reset_cooldown_timer():
 		WEAPON_TYPE.HANDGUN : cooldown_timer = HANDGUN_COOLDOWN
 		WEAPON_TYPE.SHOTGUN : cooldown_timer = SHOTGUN_COOLDOWN
 		WEAPON_TYPE.MACHINEGUN : cooldown_timer = MACHINEGUN_COOLDOWN
+		
+# Create a bullet and set all the neccessary attributes
+func create_bullet(start_pos : Vector2, bullet_rotation : float, direction : Vector2, damage : int, collision_layer_value : int):
+	# Create a bullet
+	var b = bullet_scene.instantiate()
+	# Use the gun's global position for the bullet's starting position
+	b.global_position = start_pos
+	# Set the attributes according to the arguments.
+	b.global_rotation = bullet_rotation
+	b.direction = direction
+	b.damage = damage
+	b.set_collision_layer_value(collision_layer_value, true)
+	# Return the bullet.
+	return b
 			
 # Shoot handgun
 func handgun_shoot(target_position : Vector2):
 	# If cooldown timer reached zero
 	if cooldown_timer <= 0:
-		# Create a bullet
-		var b = bullet_scene.instantiate()
-		# Use the gun's global position and rotation for the bullet.
-		b.global_position = handgun.global_position
-		b.global_rotation = global_rotation
-		# Set the bullet's direction, damage and collision layer.
-		b.direction = (target_position - global_position).normalized()
-		b.damage = 1
-		b.set_collision_layer_value(4, true)
+		# Create a bullet.
+		var b = create_bullet(handgun.global_position, global_rotation, (target_position - global_position).normalized(), 1, 4)
 		# Add the bullet to the scene in the same tree-level as the player.
 		get_node("../..").add_child(b)
 		# Play the gunshot sound once.
@@ -104,28 +111,10 @@ func handgun_shoot(target_position : Vector2):
 func shotgun_shoot(target_position : Vector2):
 	# If cooldown timer reached zero
 	if cooldown_timer <= 0:
-		# Create three bullets.
-		var b1 = bullet_scene.instantiate()
-		var b2 = bullet_scene.instantiate()
-		var b3 = bullet_scene.instantiate()
-		# Use the gun's global position for the bullets.
-		b1.global_position = shotgun.global_position
-		b2.global_position = shotgun.global_position
-		b3.global_position = shotgun.global_position
-		# Set the rotation and direction of each bullets, make the second and third bullets spread out.
-		b1.global_rotation = global_rotation
-		b2.global_rotation = global_rotation - PI / 12
-		b3.global_rotation = global_rotation + PI / 12
-		b1.direction = (target_position - global_position).normalized()
-		b2.direction = (target_position - global_position).normalized().rotated(- PI / 12)
-		b3.direction = (target_position - global_position).normalized().rotated( PI / 12)
-		# Set the damage and collision layer of the bullets.
-		b1.damage = 1
-		b2.damage = 1
-		b3.damage = 1
-		b1.set_collision_layer_value(4, true)
-		b2.set_collision_layer_value(4, true)
-		b3.set_collision_layer_value(4, true)
+		# Create three bullets in a spread out pattern.
+		var b1 = create_bullet(shotgun.global_position, global_rotation, (target_position - global_position).normalized(), 1, 4)
+		var b2 = create_bullet(shotgun.global_position, global_rotation - PI / 12, (target_position - global_position).normalized().rotated(- PI / 12), 1, 4)
+		var b3 = create_bullet(shotgun.global_position, global_rotation + PI / 12, (target_position - global_position).normalized().rotated(PI / 12), 1, 4)
 		# Add the bullets to the scene in the same tree-level as the player.
 		get_node("../..").add_child(b1)
 		get_node("../..").add_child(b2)
@@ -136,14 +125,13 @@ func shotgun_shoot(target_position : Vector2):
 		reset_cooldown_timer()
 
 func machinegun_shoot(target_position : Vector2):
-	# Pretty much the same as handgun shooting function.
+	# If cooldown timer reached zero
 	if cooldown_timer <= 0:
-		var b = bullet_scene.instantiate()
-		b.global_position = machinegun.global_position
-		b.global_rotation = global_rotation
-		b.direction = (target_position - global_position).normalized()
-		b.damage = 1
-		b.set_collision_layer_value(4, true)
+		# Create a bullet.
+		var b = create_bullet(machinegun.global_position, global_rotation, (target_position - global_position).normalized(), 1, 4)
+		# Add the bullet to the scene in the same tree-level as the player.
 		get_node("../..").add_child(b)
+		# Play the gunshot sound once.
 		SoundPlayer.play_gun_sound(1)
+		# Reset the weapon's cooldown timer.
 		reset_cooldown_timer()
