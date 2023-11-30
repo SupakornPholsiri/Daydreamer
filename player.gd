@@ -13,7 +13,14 @@ signal powerup_timed_out
 
 @export var SPEED = 150.0
 @export var MAX_HEALTH : int = 3 : set = set_max_health
+@export var KEYBOARD_ONLY : bool = false : set = change_control_scheme
 
+# General aiming
+var target_position : Vector2
+# Keyboard only aiming
+var last_target_direction : Vector2 = Vector2.LEFT
+
+# Powerups
 enum POWERUP {
 	NONE,
 	INVINCIBILITY,
@@ -29,17 +36,50 @@ var health : int
 var active_powerup : int = 0
 var invincible : bool = false
 
+# The events
+var click_event
+var aim_up_event
+var aim_down_event
+var aim_left_event
+var aim_right_event
+
 func _ready():
+	# Setting up events for the control scheme change feature
+	click_event = InputEventMouseButton.new()
+	click_event.button_index = MOUSE_BUTTON_LEFT
+	aim_up_event = InputEventKey.new()
+	aim_up_event.keycode = KEY_I
+	aim_down_event = InputEventKey.new()
+	aim_down_event.keycode = KEY_K
+	aim_left_event = InputEventKey.new()
+	aim_left_event.keycode = KEY_J
+	aim_right_event = InputEventKey.new()
+	aim_right_event.keycode = KEY_L
+	
+	# Initializing the player
 	starting_position = position
 	health = MAX_HEALTH
 	emit_signal("player_health_changed", health)
 
 func _physics_process(delta):
-	# Get the mouse location and handle gun movement
-	var mouse_position = get_global_mouse_position()
-	gun.global_rotation = global_position.angle_to_point(mouse_position)
-	# Get the input direction and handle the movement/deceleration.
+	# Get the movement direction.
 	var direction = Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down")).normalized()
+	if KEYBOARD_ONLY:
+		# Get the aim direction and use it to calculate the target position
+		var target_direction = Vector2(Input.get_axis("aim_left", "aim_right"), Input.get_axis("aim_up", "aim_down")).normalized()
+		if target_direction:
+			target_position = global_position + target_direction * 50
+			last_target_direction = target_direction
+		# Use the last aim direction if there is no aim input
+		else:
+			target_position = global_position + last_target_direction * 50
+	else:
+		# Get the mouse location.
+		target_position = get_global_mouse_position()
+	# Handle gun movement
+	gun.global_rotation = global_position.angle_to_point(target_position)
+		
+	# Handle the movement/deceleration.
 	if direction:
 		velocity = direction * SPEED
 	else:
@@ -50,17 +90,33 @@ func _physics_process(delta):
 	position.x = clamp(position.x, 16, 704)
 	position.y = clamp(position.y, 16, 704)
 	
-	# Shoot at the mouse position on click.
-	if Input.is_action_pressed("shoot"):
-		shoot(mouse_position)
+	# Always shoot if using keyboard only control, only shoot when clicked otherwise.
+	if KEYBOARD_ONLY or Input.is_action_pressed("shoot"):
+		shoot(target_position)
+		
+# Change the control scheme
+func change_control_scheme(is_keyboard_only):
+	KEYBOARD_ONLY = is_keyboard_only
+	if KEYBOARD_ONLY:
+		InputMap.action_erase_event("shoot", click_event)
+		InputMap.action_add_event("aim_up", aim_up_event)
+		InputMap.action_add_event("aim_down", aim_down_event)
+		InputMap.action_add_event("aim_left", aim_left_event)
+		InputMap.action_add_event("aim_right", aim_right_event)
+	else :
+		InputMap.action_add_event("shoot", click_event)
+		InputMap.action_erase_event("aim_up", aim_up_event)
+		InputMap.action_erase_event("aim_down", aim_down_event)
+		InputMap.action_erase_event("aim_left", aim_left_event)
+		InputMap.action_erase_event("aim_right", aim_right_event)
 
-# Change weapon according to the weapon's ID.
+# Change the weapon according to the weapon ID.
 func _on_changed_weapon(weapon_id):
 	gun.change_weapon(weapon_id)
-
-# Shoot at the mouse position.
-func shoot(mouse_position : Vector2):
-	gun.handle_shoot(mouse_position)
+	
+# Shoot at the position(pos) inputted.
+func shoot(pos : Vector2):
+	gun.handle_shoot(pos)
 
 # Remove the temporary invincibility granted from getting damaged.
 func _on_invincibility_timer_timeout():
