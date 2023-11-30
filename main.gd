@@ -23,6 +23,7 @@ var in_game_over : bool = false
 func _ready():
 	get_tree().set_pause(true)
 	daydream.get_node("Player").connect("player_health_changed", UI.change_health_ui)
+	UI.get_node("Setting/VBoxContainer/KeyboardOnly/KeyboardOnlyCheck").connect("set_control_scheme", daydream.get_node("Player").change_control_scheme)
 
 func _physics_process(delta):
 	if monitoring_powerup_countdown:
