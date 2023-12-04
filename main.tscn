@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cde83ff5u45ri"]
+[gd_scene load_steps=17 format=3 uid="uid://cde83ff5u45ri"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_3fyj3"]
 [ext_resource type="PackedScene" uid="uid://fxs4torjy7ha" path="res://Daydream/daydream.tscn" id="2_gahtu"]
@@ -8,7 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://c7tataymka61n" path="res://Assets/Heart.png" id="5_bjjxq"]
 [ext_resource type="PackedScene" uid="uid://d2v2mx8xtqjdj" path="res://UI/powerup_ui.tscn" id="6_2jjet"]
 [ext_resource type="PackedScene" uid="uid://bwip8xrs6ahxq" path="res://UI/setting.tscn" id="6_yt8uy"]
+[ext_resource type="Texture2D" uid="uid://c0mj5yettncl8" path="res://Assets/wasd.png" id="7_aiiv8"]
 [ext_resource type="PackedScene" uid="uid://r0e2gd7k0huk" path="res://UI/game_over.tscn" id="7_r22km"]
+[ext_resource type="Texture2D" uid="uid://cmx6qqfoa0ipj" path="res://Assets/mouse.png" id="8_m8nhk"]
+[ext_resource type="Texture2D" uid="uid://dkf7pga3fs1pi" path="res://Assets/spacebar.png" id="9_x0j2m"]
+[ext_resource type="Texture2D" uid="uid://pte3px8i64f" path="res://Assets/ijkl.png" id="10_3akxx"]
 
 [sub_resource type="Gradient" id="Gradient_2b3gy"]
 colors = PackedColorArray(0, 0, 0, 0.745098, 0, 0, 0, 0.745098)
@@ -17,6 +21,9 @@ colors = PackedColorArray(0, 0, 0, 0.745098, 0, 0, 0, 0.745098)
 gradient = SubResource("Gradient_2b3gy")
 width = 720
 height = 720
+
+[sub_resource type="LabelSettings" id="LabelSettings_0mvru"]
+font_size = 36
 
 [node name="Main" type="Node"]
 script = ExtResource("1_3fyj3")
@@ -137,6 +144,116 @@ offset_left = -0.320007
 offset_top = 0.0799994
 offset_right = 0.319946
 offset_bottom = 0.0
+
+[node name="Wasd" type="TextureRect" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -388.0
+offset_top = -246.0
+offset_right = -190.0
+offset_bottom = -115.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_aiiv8")
+
+[node name="to_daydream" type="Label" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 235.0
+offset_top = 172.0
+offset_right = 496.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "to daydream /
+stop daydream"
+label_settings = SubResource("LabelSettings_0mvru")
+horizontal_alignment = 1
+
+[node name="to_aim" type="Label" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -406.0
+offset_top = 210.0
+offset_right = -165.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "to aim / shoot"
+label_settings = SubResource("LabelSettings_0mvru")
+
+[node name="to_move" type="Label" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -357.0
+offset_top = -111.0
+offset_right = -216.0
+offset_bottom = -61.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "to move"
+label_settings = SubResource("LabelSettings_0mvru")
+
+[node name="Mouse" type="TextureRect" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -343.0
+offset_top = 57.0
+offset_right = -229.0
+offset_bottom = 207.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_m8nhk")
+
+[node name="Spacebar" type="TextureRect" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 181.0
+offset_top = 103.0
+offset_right = 535.0
+offset_bottom = 167.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_x0j2m")
+
+[node name="Ijkl" type="TextureRect" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -385.0
+offset_top = 71.0
+offset_right = -187.0
+offset_bottom = 202.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("10_3akxx")
 
 [node name="Setting" parent="UI" instance=ExtResource("6_yt8uy")]
 visible = false

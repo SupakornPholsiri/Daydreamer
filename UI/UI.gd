@@ -7,6 +7,10 @@ extends CanvasLayer
 @onready var game_over = $GameOver
 @onready var setting = $Setting
 @onready var powerup_ui = $PowerupUI
+@onready var mouse = $Mouse
+@onready var ijkl = $Ijkl
+
+var tutorial_on : bool = false
 
 func show_main_menu():
 	main_menu.show()
@@ -26,6 +30,19 @@ func show_setting():
 	
 func hide_setting():
 	setting.hide()
+	
+func show_tutorial(keyboard_only : bool):
+	get_tree().call_group("tutorial_ui", "show")
+	if keyboard_only :
+		mouse.hide()
+	else :
+		ijkl.hide()
+	tutorial_on = true
+		
+func hide_tutorial():
+	if tutorial_on:
+		get_tree().call_group("tutorial_ui", "hide")
+		tutorial_on = false
 	
 func change_health_ui(health : int):
 	if health == 0 :

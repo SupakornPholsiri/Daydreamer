@@ -8,6 +8,8 @@ extends Node
 
 @onready var UI = $UI
 
+@onready var player = daydream.get_node("Player")
+
 var score_multi : int = 1 : set = set_score_multi
 var score : int = 0 : set = set_score
 var kill_streak : int = 0
@@ -22,8 +24,8 @@ var in_game_over : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().set_pause(true)
-	daydream.get_node("Player").connect("player_health_changed", UI.change_health_ui)
-	UI.get_node("Setting/VBoxContainer/KeyboardOnly/KeyboardOnlyCheck").connect("set_control_scheme", daydream.get_node("Player").change_control_scheme)
+	player.connect("player_health_changed", UI.change_health_ui)
+	UI.get_node("Setting/VBoxContainer/KeyboardOnly/KeyboardOnlyCheck").connect("set_control_scheme", player.change_control_scheme)
 
 func _physics_process(delta):
 	if monitoring_powerup_countdown:
@@ -52,6 +54,7 @@ func pause_daydream():
 	daydream.process_mode = Node.PROCESS_MODE_DISABLED
 	
 func toggle_daydream():
+	UI.hide_tutorial()
 	if daydream_paused:
 		SoundPlayer.play_bgm()
 		classroom.player_daydreaming = true
@@ -86,7 +89,7 @@ func reset_game():
 	SoundPlayer.stop_bgm()
 	SoundPlayer.reset_bgm()
 	SoundPlayer.stop_all_sound_effects()
-	daydream.get_node("Player").disconnect("player_died", _on_player_died)
+	player.disconnect("player_died", _on_player_died)
 	classroom.disconnect("game_over", game_over)
 	score_multi = 1
 	kill_streak = 0
@@ -105,7 +108,8 @@ func play():
 	in_game_over = false
 	daydream.process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().set_pause(false)
-	daydream.get_node("Player").connect("player_died", _on_player_died)
+	UI.show_tutorial(player.KEYBOARD_ONLY)
+	player.connect("player_died", _on_player_died)
 	classroom.connect("game_over", game_over)
 	daydream.start()
 	classroom.start()
