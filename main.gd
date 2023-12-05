@@ -21,6 +21,11 @@ var daydream_paused : bool = true
 
 var in_game_over : bool = false
 
+enum GAME_OVER {
+	OUT_OF_HEALTH,
+	CAUGHT
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().set_pause(true)
@@ -42,7 +47,7 @@ func set_score_multi(value : int):
 	UI.update_score_multiplier_ui(value)
 
 func _on_player_died():
-	game_over()
+	game_over(GAME_OVER.OUT_OF_HEALTH)
 	
 func _on_enemy_died(point : int):
 	set_score(score + point * score_multi)
@@ -76,9 +81,16 @@ func _on_daydream_child_entered_tree(node):
 	if node in get_tree().get_nodes_in_group("Enemies"):
 		node.connect("enemy_died", _on_enemy_died)
 
-func game_over():
-	get_tree().set_pause(true)
+func game_over(reason : int):
 	in_game_over = true
+	match reason :
+		GAME_OVER.OUT_OF_HEALTH : stop_game()
+		GAME_OVER.CAUGHT :
+			call_deferred("toggle_daydream")
+			classroom.play_game_over()
+
+func stop_game():
+	get_tree().set_pause(true)
 	reset_game()
 	UI.show_game_over(score)
 	score = 0

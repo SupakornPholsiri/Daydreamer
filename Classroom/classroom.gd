@@ -1,6 +1,7 @@
 extends Node2D
 
-signal game_over
+signal game_over(reason : int)
+signal cutscene_over
 
 enum TEACHER_STATE {
 	WRITING,
@@ -27,6 +28,7 @@ func start():
 	
 func reset():
 	timer.stop()
+	animation_player.play("RESET")
 	animation_player.stop()
 	$TripleDotBubble.visible = false
 	current_teacher_state = TEACHER_STATE.WRITING
@@ -34,7 +36,7 @@ func reset():
 
 func _physics_process(delta):
 	if player_daydreaming and current_teacher_state == TEACHER_STATE.TALKING:
-		emit_signal("game_over")
+		emit_signal("game_over", 1)
 		
 func begin_writing():
 	SoundPlayer.stop_teacher_talking_sound()
@@ -61,3 +63,9 @@ func _on_timer_timeout():
 	match current_teacher_state:
 		TEACHER_STATE.WRITING : begin_looking()
 		TEACHER_STATE.TALKING : begin_writing()
+
+func play_game_over():
+	animation_player.play("game_over")
+	
+func game_over_cutscene_ended():
+	emit_signal("cutscene_over")

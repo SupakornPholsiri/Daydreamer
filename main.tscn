@@ -160,6 +160,24 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_aiiv8")
 
+[node name="general_rule" type="Label" parent="UI" groups=["tutorial_ui"]]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 154.0
+offset_top = -325.0
+offset_right = 559.0
+offset_bottom = -222.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Don't let the teacher
+catch you daydreaming"
+label_settings = SubResource("LabelSettings_0mvru")
+horizontal_alignment = 1
+
 [node name="to_daydream" type="Label" parent="UI" groups=["tutorial_ui"]]
 visible = false
 anchors_preset = 8
@@ -266,6 +284,7 @@ visible = false
 [connection signal="child_entered_tree" from="Control/SubViewportContainer/DaydreamViewport/Daydream" to="." method="_on_daydream_child_entered_tree"]
 [connection signal="powerup_activated" from="Control/SubViewportContainer/DaydreamViewport/Daydream" to="." method="_on_daydream_powerup_activated"]
 [connection signal="powerup_deactivated" from="Control/SubViewportContainer/DaydreamViewport/Daydream" to="." method="_on_daydream_powerup_deactivated"]
+[connection signal="cutscene_over" from="Control/SubViewportContainer2/ClassroomViewport/Classroom" to="." method="stop_game"]
 [connection signal="pressed" from="UI/Setting/Back" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="UI/GameOver/PlayAgain" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="UI/GameOver/MainMenu" to="." method="_on_main_menu_pressed"]
